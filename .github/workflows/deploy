@@ -1,0 +1,29 @@
+# Questo file va messo in: .github/workflows/deploy.yml
+# nel tuo repository GitHub haussidievolution/CRM
+# Si aggiorna automaticamente il sito ogni volta che carichi index.html
+
+name: Deploy CRM to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Permette aggiornamento manuale
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          force_orphan: true
